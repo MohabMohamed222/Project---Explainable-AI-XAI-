@@ -11,11 +11,11 @@ This project aims to gain hands-on experience in implementing and comparing key 
 
 Solution (XAI Application):
 Global:
-	Permutation Feature Importance: Use this to get a definitive ranking of which features (e.g., HighBP, HighChol, BMI, Age) are most critical to the model's accuracy.
-	Partial Dependence Plots (PDP): Plot the average probability of diabetes against BMI or Age (the few numerical/ordinal features) to see the trend.
-	Individual Conditional Expectation (ICE): Use this to see if the BMI trend is the same for both smokers and non-smokers.
+* Permutation Feature Importance: Use this to get a definitive ranking of which features (e.g., HighBP, HighChol, BMI, Age) are most critical to the model's accuracy.
+* Partial Dependence Plots (PDP): Plot the average probability of diabetes against BMI or Age (the few numerical/ordinal features) to see the trend.
+* Individual Conditional Expectation (ICE): Use this to see if the BMI trend is the same for both smokers and non-smokers.
 Local:
-	LIME (Tabular): Explain a single prediction: "This patient was flagged as high-risk because HighBP = 1, Age = 10, and BMI = 35."
+* LIME (Tabular): Explain a single prediction: "This patient was flagged as high-risk because HighBP = 1, Age = 10, and BMI = 35."
 •	Link: https://www.kaggle.com/datasets/alexteboul/diabetes-health-indicators-dataset
 
 
@@ -30,18 +30,18 @@ Local:
 
 •	Problem (Dataset): This is a very large tabular dataset (millions of rows; you will likely use a large sample, e.g., 1-5 million). The main challenge is extensive feature engineering. The raw data (pickup_datetime, pickup_longitude, dropoff_latitude, etc.) is not usable directly. You must create new features like:
 
-	haversine_distance (from coordinates)
+*  haversine_distance (from coordinates)
 
-	hour_of_day, day_of_week, month (from pickup_datetime)
+*  hour_of_day, day_of_week, month (from pickup_datetime)
 
-	distance_to_jfk, distance_to_lga (distance to airports)
+*  distance_to_jfk, distance_to_lga (distance to airports)
 
 Solution (XAI Application):
 Global:
-	Permutation Feature Importance: Quantify how important haversine_distance is versus hour_of_day or day_of_week.
-	Partial Dependence Plots (PDP): This is perfect for plotting fare_amount against your engineered features. You can visualize "surge pricing" by plotting fare_amount vs. hour_of_day (you'll see spikes at 8 AM and 6 PM) or fare_amount vs. haversine_distance.
+*	Permutation Feature Importance: Quantify how important haversine_distance is versus hour_of_day or day_of_week.
+*	Partial Dependence Plots (PDP): This is perfect for plotting fare_amount against your engineered features. You can visualize "surge pricing" by plotting fare_amount vs. hour_of_day (you'll see spikes at 8 AM and 6 PM) or fare_amount vs. haversine_distance.
 Local:
-	LIME (Tabular): Explain a single high fare: "This $75 fare was high because haversine_distance = 15 miles (+ $40), hour_of_day = 17 (5 PM) (+ $10), and distance_to_jfk = 2 miles (+ $15)."
+*	LIME (Tabular): Explain a single high fare: "This $75 fare was high because haversine_distance = 15 miles (+ $40), hour_of_day = 17 (5 PM) (+ $10), and distance_to_jfk = 2 miles (+ $15)."
 •	Link: https://www.kaggle.com/c/new-york-city-taxi-fare-prediction/data
 
 3. Chest X-Ray Images (Pneumonia) (Image, Classification)
@@ -51,17 +51,17 @@ Local:
 
 •	Problem (Dataset): This is a large image dataset (5,863 images). The main challenge is the preprocessing required for sklearn models. You cannot feed raw images to an MLPClassifier. You must:
 
-	Resize all images to a uniform, small dimension (e.g., 64x64).
+*	Resize all images to a uniform, small dimension (e.g., 64x64).
 
-	Convert images to grayscale.
+*	Convert images to grayscale.
 
-	Flatten each (64, 64) image into a 1D vector of 4,096 features (pixels).
+*	Flatten each (64, 64) image into a 1D vector of 4,096 features (pixels).
 This flattened vector is what you will train your sklearn models on. The data is also imbalanced.
 
 Solution (XAI Application):
 Global: 
 •	PDP, ICE, and Permutation Importance are not useful here. A plot of the "average effect of pixel #2048" is meaningless.
 Local (for the radiologist):
-	LIME (for Images): This is the main tool. LIME will not use the flattened vector. You will give it the original 2D image. It will highlight the "superpixels" (regions) in the lung that the model (which was trained on flattened data) used to make its "Pneumonia" diagnosis. This allows the radiologist to visually confirm if the model is focusing on a valid area of infection.
+*	LIME (for Images): This is the main tool. LIME will not use the flattened vector. You will give it the original 2D image. It will highlight the "superpixels" (regions) in the lung that the model (which was trained on flattened data) used to make its "Pneumonia" diagnosis. This allows the radiologist to visually confirm if the model is focusing on a valid area of infection.
 •	Link: https://www.kaggle.com/datasets/paultimothymooney/chest-xray-pneumonia
 
